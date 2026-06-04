@@ -8,10 +8,12 @@ links_proc = '{ split($$0, f, ":"); o = $$0; sub(f[1]":", "", o); split(f[1], p,
 
 tags_proc = '{ split($$0, a, "\\[\\[");  split(a[2], b, "\\]\\]"); c[b[1]]++ } END { for (i in c) { print i" : "c[i]" reference(s)" } }'
 
+deadlines_proc = '{ split($$0, a, ":"); o = $$0; sub(a[1]":", "", o); gsub(/^[[:space:]]*/, "", o); b[a[1]]=b[a[1]] ? b[a[1]]"\n\n"o : o } END { for (i in b) { split(i, f, ".md"); print "\n\n\#\#\# "f[1]":\n\ngoto : [link](" i ")\n\n"b[i] } }'
+
 all: links todo
 
 links: links.md tags.md
-todo: todo.md todo_a.md todo_b.md todo_c.md
+todo: todo.md todo_a.md todo_b.md todo_c.md deadlines.md
 
 today:
 	@mkdir -p journals
@@ -63,4 +65,9 @@ todo_c.md: $(wildcard journals/*.md) $(wildcard pages/*.md)
 	@printf "\n\n## Tâches de fond :" >> todo_c.md
 	@grep '\[ \]C\|TODO \[#C\]' $^ | awk -F'\n' $(todo_proc) >> todo_c.md
 	@printf "\n" >> todo_c.md
+
+deadlines.md: $(wildcard journals/*.md) $(wildcard pages/*.md)
+	@printf "# Deadlines en cours :" > deadlines.md
+	@grep '\[ \][A-C] D\[[0-9\-]\+\]' $^ | awk -F'\n' $(todo_proc) >> deadlines.md
+	@printf "\n" >> deadlines.md
 
