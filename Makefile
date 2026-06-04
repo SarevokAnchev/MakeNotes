@@ -25,7 +25,7 @@ links.md: $(wildcard journals/*.md) $(wildcard pages/*.md)
 	@printf "\n" >> links.md
 
 tags.md: $(wildcard journals/*.md) $(wildcard pages/*.md)
-	@grep '\[\[[0-9A-Za-z.]*\]\]' $^ | awk -F'\n' '{ split($$0, a, "\\[\\[");  split(a[2], b, "\\]\\]"); c[b[1]] } END { for (i in c) { print i } }' | sort > tags.md
+	@grep '\[\[[0-9A-Za-z.]*\]\]' $^ | awk -F'\n' '{ split($$0, a, "\\[\\[");  split(a[2], b, "\\]\\]"); c[b[1]]++ } END { for (i in c) { print i" : "c[i]" reference(s)" } }' | sort > tags.md
 	@printf "\n" >> tags.md
 
 todo.md: $(wildcard journals/*.md) $(wildcard pages/*.md)
@@ -46,23 +46,17 @@ todo_a.md: $(wildcard journals/*.md) $(wildcard pages/*.md)
 	@printf "# Tâches en cours :" > todo_a.md
 	@printf "\n\n## Prioritaire :" >> todo_a.md
 	@grep '\[ \]A\|TODO \[#A\]' $^ | awk -F'\n' $(todo_proc) >> todo_a.md
-	@printf "\n\n# Tâches finalisées :" >> todo_a.md
-	@grep '\[x\]A\|DONE \[#A\]' $^ | awk -F'\n' $(todo_proc) >> todo_a.md
 	@printf "\n" >> todo_a.md
 
 todo_b.md: $(wildcard journals/*.md) $(wildcard pages/*.md)
 	@printf "# Tâches en cours :" > todo_b.md
 	@printf "\n\n## Secondaires :" >> todo_b.md
 	@grep '\[ \]B\|TODO \[#B\]' $^ | awk -F'\n' $(todo_proc) >> todo_b.md
-	@printf "\n\n# Tâches finalisées :" >> todo_b.md
-	@grep '\[x\]B\|DONE \[#B\]' $^ | awk -F'\n' $(todo_proc) >> todo_b.md
 	@printf "\n" >> todo_b.md
 
 todo_c.md: $(wildcard journals/*.md) $(wildcard pages/*.md)
 	@printf "# Tâches en cours :" > todo_c.md
 	@printf "\n\n## Tâches de fond :" >> todo_c.md
 	@grep '\[ \]C\|TODO \[#C\]' $^ | awk -F'\n' $(todo_proc) >> todo_c.md
-	@printf "\n\n# Tâches finalisées :" >> todo_c.md
-	@grep '\[x\]C\|DONE \[#C\]' $^ | awk -F'\n' $(todo_proc) >> todo_c.md
 	@printf "\n" >> todo_c.md
 
