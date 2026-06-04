@@ -8,7 +8,7 @@ links_proc = '{ split($$0, f, ":"); o = $$0; sub(f[1]":", "", o); split(f[1], p,
 
 tags_proc = '{ split($$0, a, "\\[\\[");  split(a[2], b, "\\]\\]"); c[b[1]]++ } END { for (i in c) { print i" : "c[i]" reference(s)" } }'
 
-deadlines_proc = '{ split($$0, a, ":"); o = $$0; sub(a[1]":", "", o); gsub(/^[[:space:]]*/, "", o); b[a[1]]=b[a[1]] ? b[a[1]]"\n\n"o : o } END { for (i in b) { split(i, f, ".md"); print "\n\n\#\#\# "f[1]":\n\ngoto : [link](" i ")\n\n"b[i] } }'
+deadlines_proc = '{ split($$0, path, ":"); line = $$0; sub(path[1]":", "", line); gsub(/^[[:space:]]*/, "", line); split(line, date, "D\\["); split(date[2], date, "\\]"); lines[date[1]line] = line; paths[date[1]line]=path[1] } END { n = asorti(lines, keys); for (i = 1; i <= n; i++) { print "\n\n"lines[keys[i]]"\n\ngoto : [link]("paths[keys[i]]")" } }'
 
 all: links todo
 
@@ -68,6 +68,6 @@ todo_c.md: $(wildcard journals/*.md) $(wildcard pages/*.md)
 
 deadlines.md: $(wildcard journals/*.md) $(wildcard pages/*.md)
 	@printf "# Deadlines en cours :" > deadlines.md
-	@grep -H '\[ \][A-C] D\[[0-9\-]\+\]' $^ | awk -F'\n' $(todo_proc) >> deadlines.md
+	@grep -H '\[ \][A-C] D\[[0-9\-]\+\]' $^ | awk -F'\n' $(deadlines_proc) >> deadlines.md
 	@printf "\n" >> deadlines.md
 
