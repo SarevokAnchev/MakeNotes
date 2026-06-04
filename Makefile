@@ -45,7 +45,7 @@ todo_a.md: $(wildcard journals/*.md) $(wildcard pages/*.md)
 	@printf "\n\n## Prioritaire :" >> todo_a.md
 	@grep '\[ \]A\|TODO \[#A\]' $^ | awk -F'\n' '{ split($$0, a, ":"); o = $$0; sub(a[1]":", "",o);  b[a[1]]=b[a[1]] ? b[a[1]]"\n\n"o : o } END { for (i in b) { split(i, f, ".md"); print "\n\n### "f[1]":\n\ngoto : [link](" i ")\n\n"b[i] } }' >> todo_a.md
 	@printf "\n\n# Tâches finalisées :" >> todo_a.md
-	@grep '\[x\]A|DONE \[#A\]' $^ | awk -F'\n' '{ split($$0, a, ":"); o = $$0; sub(a[1]":", "",o);  b[a[1]]=b[a[1]] ? b[a[1]]"\n\n"o : o } END { for (i in b) { split(i, f, ".md"); print "\n\n### "f[1]":\n\ngoto : [link](" i ")\n\n"b[i] } }' >> todo_b.md
+	@grep '\[x\]A\|DONE \[#A\]' $^ | awk -F'\n' '{ split($$0, a, ":"); o = $$0; sub(a[1]":", "",o);  b[a[1]]=b[a[1]] ? b[a[1]]"\n\n"o : o } END { for (i in b) { split(i, f, ".md"); print "\n\n### "f[1]":\n\ngoto : [link](" i ")\n\n"b[i] } }' >> todo_a.md
 	@printf "\n" >> todo_a.md
 
 todo_b.md: $(wildcard journals/*.md) $(wildcard pages/*.md)
@@ -53,7 +53,7 @@ todo_b.md: $(wildcard journals/*.md) $(wildcard pages/*.md)
 	@printf "\n\n## Secondaires :" >> todo_b.md
 	@grep '\[ \]B\|TODO \[#B\]' $^ | awk -F'\n' '{ split($$0, a, ":"); o = $$0; sub(a[1]":", "",o);  b[a[1]]=b[a[1]] ? b[a[1]]"\n\n"o : o } END { for (i in b) { split(i, f, ".md"); print "\n\n### "f[1]":\n\ngoto : [link](" i ")\n\n"b[i] } }' >> todo_b.md
 	@printf "\n\n# Tâches finalisées :" >> todo_b.md
-	@grep '\[x\]B|DONE \[#B\]' $^ | awk -F'\n' '{ split($$0, a, ":"); o = $$0; sub(a[1]":", "",o);  b[a[1]]=b[a[1]] ? b[a[1]]"\n\n"o : o } END { for (i in b) { split(i, f, ".md"); print "\n\n### "f[1]":\n\ngoto : [link](" i ")\n\n"b[i] } }' >> todo_b.md
+	@grep '\[x\]B\|DONE \[#B\]' $^ | awk -F'\n' '{ split($$0, a, ":"); o = $$0; sub(a[1]":", "",o);  b[a[1]]=b[a[1]] ? b[a[1]]"\n\n"o : o } END { for (i in b) { split(i, f, ".md"); print "\n\n### "f[1]":\n\ngoto : [link](" i ")\n\n"b[i] } }' >> todo_b.md
 	@printf "\n" >> todo_b.md
 
 todo_c.md: $(wildcard journals/*.md) $(wildcard pages/*.md)
@@ -61,6 +61,6 @@ todo_c.md: $(wildcard journals/*.md) $(wildcard pages/*.md)
 	@printf "\n\n## Tâches de fond :" >> todo_c.md
 	@grep '\[ \]C\|TODO \[#C\]' $^ | awk -F'\n' '{ split($$0, a, ":"); o = $$0; sub(a[1]":", "",o);  b[a[1]]=b[a[1]] ? b[a[1]]"\n\n"o : o } END { for (i in b) { split(i, f, ".md"); print "\n\n### "f[1]":\n\ngoto : [link](" i ")\n\n"b[i] } }' >> todo_c.md
 	@printf "\n\n# Tâches finalisées :" >> todo_c.md
-	@grep '\[x\]C|DONE \[#C\]' $^ | awk -F'\n' '{ split($$0, a, ":"); o = $$0; sub(a[1]":", "",o);  b[a[1]]=b[a[1]] ? b[a[1]]"\n\n"o : o } END { for (i in b) { split(i, f, ".md"); print "\n\n### "f[1]":\n\ngoto : [link](" i ")\n\n"b[i] } }' >> todo_c.md
+	@grep '\[x\]C\|DONE \[#C\]' $^ | awk -F'\n' '{ split($$0, a, ":"); o = $$0; sub(a[1]":", "",o);  b[a[1]]=b[a[1]] ? b[a[1]]"\n\n"o : o } END { for (i in b) { split(i, f, ".md"); print "\n\n### "f[1]":\n\ngoto : [link](" i ")\n\n"b[i] } }' >> todo_c.md
 	@printf "\n" >> todo_c.md
 
