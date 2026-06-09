@@ -4,9 +4,9 @@ pagename = default
 
 todo_proc = '{ split($$0, path, ":"); line = $$0; sub(path[1]":", "", line); gsub(/^[[:space:]]*/, "", line); lines[path[1]]=lines[path[1]] ? lines[path[1]]"\n\n"line : line } END { n = asorti(lines, keys); for (i = 1; i <= n; i++) { split(keys[i], file, ".md"); print "\n\n\#\#\# "file[1]":\n\ngoto : [link](" keys[i] ")\n\n"lines[keys[i]] } }'
 
-links_proc = '{ split($$0, f, ":"); o = $$0; sub(f[1]":", "", o); split(f[1], p, ".md"); split(f[2], a, "\\[\\["); split(a[2], b, "\\]\\]"); c[b[1]]=c[b[1]] ? c[b[1]]"\n\n\#\#\# "p[1]" :\ngoto : [link]("f[1]")\n\n"f[2] : "\n\n\#\#\# "p[1]" :\ngoto : [link]("f[1]")\n\n"o } END { for (i in c) { print "\n\#\# "i" :"c[i] } }'
+links_proc = '{ split($$0, path, ":"); line = $$0; sub(path[1]":", "", line); split(path[1], file, ".md"); gsub(/^[[:space:]]*/, "", line); match(line, /\[\[[0-9A-Za-z.\-]*\]\]/); tag = substr(line, RSTART + 2, RLENGTH - 4); c[tag]=c[tag] ? c[tag]"\n\n\#\#\# "file[1]" :\ngoto : [link]("path[1]")\n\n"line : "\n\n\#\#\# "file[1]" :\ngoto : [link]("path[1]")\n\n"line } END { n = asorti(c, keys); for (i = 1; i <= n; i++) { print "\n\n\#\# "keys[i]" :"c[keys[i]] } }'
 
-tags_proc = '{ split($$0, a, "\\[\\[");  split(a[2], b, "\\]\\]"); c[b[1]]++ } END { for (i in c) { print i" : "c[i]" reference(s)" } }'
+tags_proc = '{ match($$0, /\[\[[0-9A-Za-z.\-]*\]\]/); tag = substr($$0, RSTART + 2, RLENGTH - 4); c[tag]++ } END { for (i in c) { print i" : "c[i]" reference(s)" } }'
 
 deadlines_proc = '{ split($$0, path, ":"); line = $$0; sub(path[1]":", "", line); gsub(/^[[:space:]]*/, "", line); split(line, date, "D\\["); split(date[2], date, "\\]"); lines[date[1]line] = line; paths[date[1]line]=path[1] } END { n = asorti(lines, keys); for (i = 1; i <= n; i++) { print "\n\n"lines[keys[i]]"\n\ngoto : [link]("paths[keys[i]]")" } }'
 
