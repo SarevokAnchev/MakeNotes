@@ -2,7 +2,7 @@
 editor = nvim
 pagename = default
 
-todo_proc = '{ split($$0, a, ":"); o = $$0; sub(a[1]":", "", o); gsub(/^[[:space:]]*/, "", o); b[a[1]]=b[a[1]] ? b[a[1]]"\n\n"o : o } END { for (i in b) { split(i, f, ".md"); print "\n\n\#\#\# "f[1]":\n\ngoto : [link](" i ")\n\n"b[i] } }'
+todo_proc = '{ split($$0, path, ":"); line = $$0; sub(path[1]":", "", line); gsub(/^[[:space:]]*/, "", line); lines[path[1]]=lines[path[1]] ? lines[path[1]]"\n\n"line : line } END { n = asorti(lines, keys); for (i = 1; i <= n; i++) { split(keys[i], file, ".md"); print "\n\n\#\#\# "file[1]":\n\ngoto : [link](" keys[i] ")\n\n"lines[keys[i]] } }'
 
 links_proc = '{ split($$0, f, ":"); o = $$0; sub(f[1]":", "", o); split(f[1], p, ".md"); split(f[2], a, "\\[\\["); split(a[2], b, "\\]\\]"); c[b[1]]=c[b[1]] ? c[b[1]]"\n\n\#\#\# "p[1]" :\ngoto : [link]("f[1]")\n\n"f[2] : "\n\n\#\#\# "p[1]" :\ngoto : [link]("f[1]")\n\n"o } END { for (i in c) { print "\n\#\# "i" :"c[i] } }'
 
