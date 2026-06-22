@@ -17,7 +17,12 @@ todo: done.md todo_a.md todo_b.md todo_c.md deadlines.md
 
 today:
 	@mkdir -p journals
-	@touch journals/$(shell date +'%Y_%m_%d').md
+	@if [ -f "journals/$(shell date +'%Y_%m_%d').md" ]; \
+	then \
+		touch journals/$(shell date +'%Y_%m_%d').md; \
+	else \
+		printf "# $(shell date +'%Y-%m-%d')" >> "journals/$(shell date +'%Y_%m_%d').md"; \
+	fi
 	@$(editor) journals/$(shell date +'%Y_%m_%d').md
 
 page:
