@@ -24,11 +24,11 @@ page:
 
 links.md: $(wildcard journals/*.md) $(wildcard pages/*.md)
 	@printf "# Liens :" > links.md
-	@grep -nH '\[\[[0-9A-Za-z.\-]*\]\]' $^ | awk -F':' -f scripts/links.awk >> links.md
+	@grep -nH '\[\[[ 0-9A-Za-z.\-]*\]\]' $^ | awk -F':' -f scripts/links.awk >> links.md
 	@printf "\n" >> links.md
 
 tags.md: $(wildcard journals/*.md) $(wildcard pages/*.md)
-	@grep -nH '\[\[[0-9A-Za-z.\-]*\]\]' $^ | awk -F':' -f scripts/tags.awk | sort > tags.md
+	@grep -nH '\[\[[ 0-9A-Za-z.\-]*\]\]' $^ | awk -F':' -f scripts/tags.awk | sort > tags.md
 	@printf "\n" >> tags.md
 
 done.md: $(wildcard journals/*.md) $(wildcard pages/*.md)
